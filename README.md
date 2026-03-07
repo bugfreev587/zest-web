@@ -1,6 +1,6 @@
 # Zest — Landing Page
 
-Marketing landing page for [Zest](https://zestapp.io), the AI prompt optimizer. Single-file static site — no framework, no build step. Hosted on GitHub Pages (or any static host).
+Marketing landing page for [Zest](https://tryzest.app), the AI prompt optimizer. Single-file static site — no framework, no build step. Hosted on GitHub Pages (or any static host).
 
 ## What it does
 
@@ -46,7 +46,7 @@ Any static hosting works. The site is a single HTML file with inline CSS and JS.
 git push
 ```
 
-**Custom domain:** Point `zestapp.io` DNS to GitHub Pages and add a `CNAME` file.
+**Custom domain:** Point `tryzest.app` DNS to GitHub Pages and add a `CNAME` file.
 
 ## Related repos
 
