@@ -70,16 +70,26 @@
                 const token = await window.Clerk.session.getToken();
                 if (!token) throw new Error('Could not get session token');
 
-                // Redirect to desktop app
-                document.getElementById('title').textContent = 'Success!';
-                document.getElementById('message').textContent = 'Opening Zest...';
-                window.location.href = 'zest://auth?session_token=' + encodeURIComponent(token);
+                // Get callback port from URL params
+                const params = new URLSearchParams(window.location.search);
+                const callbackPort = params.get('callback_port');
 
-                // Fallback message
-                setTimeout(() => {
-                    document.getElementById('message').textContent =
-                        'If Zest didn\'t open, make sure the app is running and try again.';
-                }, 3000);
+                document.getElementById('title').textContent = 'Success!';
+                document.getElementById('message').textContent = 'Redirecting to Zest...';
+
+                if (callbackPort) {
+                    // Redirect to localhost callback server
+                    window.location.href = 'http://127.0.0.1:' + callbackPort +
+                        '/callback?session_token=' + encodeURIComponent(token);
+                } else {
+                    // Fallback to deep link
+                    document.getElementById('message').textContent = 'Opening Zest...';
+                    window.location.href = 'zest://auth?session_token=' + encodeURIComponent(token);
+                    setTimeout(() => {
+                        document.getElementById('message').textContent =
+                            'If Zest didn\'t open, make sure the app is running and try again.';
+                    }, 3000);
+                }
 
             } catch (err) {
                 showError(err.message || 'Something went wrong. Please try again.');

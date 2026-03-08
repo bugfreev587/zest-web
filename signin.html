@@ -54,7 +54,11 @@
         crossorigin="anonymous"
     ></script>
     <script>
-        const CALLBACK_URL = 'https://tryzest.app/auth/callback';
+        // Pass callback_port through to the callback page
+        const params = new URLSearchParams(window.location.search);
+        const callbackPort = params.get('callback_port') || '';
+        const CALLBACK_URL = 'https://tryzest.app/auth/callback' +
+            (callbackPort ? '?callback_port=' + callbackPort : '');
 
         window.addEventListener('load', init);
 
