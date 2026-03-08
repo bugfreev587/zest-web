@@ -48,33 +48,29 @@
         <p class="error" id="error"></p>
     </div>
 
+    <script
+        data-clerk-publishable-key="pk_test_cXVhbGl0eS1wb3Jwb2lzZS02OC5jbGVyay5hY2NvdW50cy5kZXYk"
+        src="https://quality-porpoise-68.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+        crossorigin="anonymous"
+    ></script>
     <script>
-        const CLERK_PK = 'pk_test_cXVhbGl0eS1wb3Jwb2lzZS02OC5jbGVyay5hY2NvdW50cy5kZXYk';
-        const CLERK_DOMAIN = 'quality-porpoise-68.clerk.accounts.dev';
         const CALLBACK_URL = 'https://tryzest.app/auth/callback';
 
-        // Load Clerk JS
-        const script = document.createElement('script');
-        script.src = 'https://' + CLERK_DOMAIN + '/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-        script.crossOrigin = 'anonymous';
-        script.onload = init;
-        script.onerror = () => showError('Failed to load authentication. Please try again.');
-        document.head.appendChild(script);
+        window.addEventListener('load', init);
 
         async function init() {
             try {
-                const clerk = new window.Clerk(CLERK_PK);
-                await clerk.load();
+                await window.Clerk.load();
 
                 // If already signed in, go straight to callback
-                if (clerk.session) {
+                if (window.Clerk.session) {
                     window.location.href = CALLBACK_URL;
                     return;
                 }
 
                 // Hide loading, mount sign-in component
                 document.getElementById('loading').style.display = 'none';
-                clerk.mountSignIn(document.getElementById('clerk-sign-in'), {
+                window.Clerk.mountSignIn(document.getElementById('clerk-sign-in'), {
                     afterSignInUrl: CALLBACK_URL,
                     redirectUrl: CALLBACK_URL,
                     appearance: {

@@ -48,32 +48,26 @@
         <p class="error" id="error"></p>
     </div>
 
+    <script
+        data-clerk-publishable-key="pk_test_cXVhbGl0eS1wb3Jwb2lzZS02OC5jbGVyay5hY2NvdW50cy5kZXYk"
+        src="https://quality-porpoise-68.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+        crossorigin="anonymous"
+    ></script>
     <script>
-        const CLERK_PK = 'pk_test_cXVhbGl0eS1wb3Jwb2lzZS02OC5jbGVyay5hY2NvdW50cy5kZXYk';
-        const CLERK_DOMAIN = 'quality-porpoise-68.clerk.accounts.dev';
-
-        // Load Clerk JS
-        const script = document.createElement('script');
-        script.src = 'https://' + CLERK_DOMAIN + '/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
-        script.crossOrigin = 'anonymous';
-        script.onload = init;
-        script.onerror = () => showError('Failed to load authentication. Please try again.');
-        document.head.appendChild(script);
+        window.addEventListener('load', init);
 
         async function init() {
             try {
-                const clerk = new window.Clerk(CLERK_PK);
-                await clerk.load();
+                await window.Clerk.load();
 
-                if (!clerk.session) {
-                    // No session — redirect to sign-in
-                    window.location.href = 'https://' + CLERK_DOMAIN + '/sign-in?redirect_url=' +
-                        encodeURIComponent(window.location.href);
+                if (!window.Clerk.session) {
+                    // No session — redirect to sign-in page
+                    window.location.href = '/signin';
                     return;
                 }
 
                 // Get session token
-                const token = await clerk.session.getToken();
+                const token = await window.Clerk.session.getToken();
                 if (!token) throw new Error('Could not get session token');
 
                 // Redirect to desktop app
